@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    string error = ViewData["Error"] == null ? "" : ViewData["Error"].ToString();
+    string words = ViewData["NumberToWords"] == null ? "" : ViewData["NumberToWords"].ToString();
+    string numberEntered = ViewData["NumberEntered"] == null ? "" : ViewData["NumberEntered"].ToString();
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Please enter a number below to convert it to words</p>
+    <div class="col-md-6 offset-md-3 mt-5">
+       
+        <div class="card">
+      
+            <div class="card-body">
+                @using (Html.BeginForm("ConvertToWord", "Home", FormMethod.Post, new { id = "form" }))
+                {
+                    <div class="form-group">
+                        <label for="number">Number</label>
+                        <input type="text" class="form-control" id="number" name="number" value="@numberEntered" />
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="_submit();">
+                        <span id="loadingSpinner" class="spinner-border spinner-border-sm mr-1" style="display:none"></span>
+                        Convert
+                    </button>
+                    @if (!string.IsNullOrEmpty(error))
+                    {
+                        <div class="alert alert-danger mt-3 mb-0">@error</div>
+                    }
+                    @if (!string.IsNullOrEmpty(words))
+                    {
+                        <div class="alert alert-success mt-3 mb-0">@words</div>
+                    }
+                    
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function _submit() {
+        document.getElementById("loadingSpinner").style.display = "inline";
+        document.getElementById("form").submit();
+
+    }
+</script>
